@@ -1,4 +1,4 @@
-Battle for Korprulu
+Battle for Koprulu
  aka Battle for System K
  aka BattleForK
 
@@ -17,4 +17,4 @@ Play continues until only one team remains in control of their own home planet.
 
 Detailed rules can be found in battlefork-rules.txt
 
-This app is to be made in Ruby 1.8 on Rails 3 with MySQL for a DB.
+This app is to be made in Ruby 1.9 on Rails 3 with MySQL for a DB.
