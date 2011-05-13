@@ -1,0 +1,57 @@
+Battle for Koprulu
+
+BfK is an on-going territory-based tournament for a group of players.
+
+Tournament Overview
+- Teams battle for territory in the Koprulu solar system
+- Any team which loses its capital world is eliminated
+- Worlds are connected in a node graph
+- Each world represents a map in SC2
+- Teams also own three race homeworlds. Loss of these worlds disables that race for selection in matches.  Homeworlds are pre-designated on the system map.
+ -- Or will Captains designate them??
+
+Tournament Start
+- Establish # of players
+- Decide on # of teams
+- Pick 1 Captain for each team
+- Assign remaining players via draft or random
+- Captains place each player in a controlled world on the system map
+
+Round of Play
+- Captains choose all player movements
+- All team movements are revealed at once, when compiled by referee
+- Players have a limited amount of time to get together and play the match
+- Territory is gained/lost as determined by the matches played
+
+System Movement
+- Captains assign new locations for each player on his/her team
+- Players may be moved to any adjacent world on the node graph
+- If the destination world is already owned by that team, the player may be moved one additional time this round
+- Captains may not send more players to a world than the maximum # of players the world supports
+- All movements are chosen by Captains, then revealed simultaneously on the system map
+- Movements are revealed as a team color and # of players in that move.  Player names are not known until it is time to play the match.
+- All movements for a round are considered simultaneous
+
+Playing a Match
+- Opposing players on the same planet after the move phase must play a game of SC2
+- The contested planet determines the map to be played
+- Host is assigned as convenient
+- Players may choose random race if all race homeworlds are secure, or pick any race as determined by secured homeworlds
+ -- Enforce captains to play as random???
+- One game is played to determine winner, standard ladder settings and victory conditions 
+- Players report match results to their Captains and to the system map referee
+- The match loser retreats to a connected world that the team owns at the *end* of the round. If the losing player cannot make a valid retreat, the player is eliminated from the tournament.
+
+Koprulu Worlds
+- Koprulu worlds are connected in a pre-determined node graph
+- Players can be moved between worlds as they are connected in the graph
+- Worlds have an assigned map and maximum player count per team
+- Worlds are either a team capital world, a race homeworld, or standard world
+- The only benefit of controlling a standard world is for the movement bonus
+ -- Could there be a system vision maximum of n+1 on the node graph???
+- There is no benefit to owning an additional capital world or an additional race homeworld of a given type 
+ -- Could there be a race-specific benefit per race homeworld? Like a mass recall to capital if P world is still owned
+
+Tournament End
+- A team is eliminated when they lose their capital world, or all three race homeworlds
+- Last team standing wins!
