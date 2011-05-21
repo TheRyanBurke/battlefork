@@ -1,14 +1,11 @@
 Spec for battlefork v1
 
-
 User
 	username:string validates uniqueness
 	hashed-password:string
 
 	has_many :memberships
 	has_many :teams, :through => :memberships
-	has_many :matches, :through => :teams
-	has_many :battles. :through => :matches
 	
 	new page
 		type in username
@@ -20,7 +17,10 @@ User
 		link to Create New Team
 		list user.battles
 
-		
+Membership
+	belongs_to :user
+	belongs_to :team
+
 #max users = 4
 Team
 	teamname:string
@@ -28,7 +28,6 @@ Team
 
 	has_many :users, :through => :memberships
 	has_many :matches, :through => :match_participations
-	has_many :battles, :through
 	
 	new page
 		type in teamname
@@ -45,31 +44,48 @@ Team
 				redirect to admin page
 			link to destroy team
 	
-Membership
-	belongs_to :user
+MatchParticipation
 	belongs_to :team
+	belongs_to :match
 
 #max teams = 2	
-Match
-	team1_id:integer
-	team2_id:integer
-	winner_id:integer #nil signifies match in progress
+Match	
+	winner_team_id:integer #nil signifies match in progress
 	#loser = winner == team1 ? team2 : team1
+	
+	has_many :teams, :through => :match_participations, :limit => 2
+	has_many :battles
+	
+	def isRoundComplete
+		battles each |battle|
+			if(!battle.winner_team_id)
+				return false #found an incomplete battle, round is incomplete
+		true #all battles had winners, round is complete
 	
 	no new page
 	
 	Create Match page (must come from Captain clicking Create Match button)
-		assign team1 from :params[:team1_id]
+		add to teams, Team.find(:params[:team_id])
 		list Team.where(:id != team1) as radio buttons
-		assign team2 from radio selection
+		validate selected team from radios has no users in challenging team
+		add team from radio to teams
 
 	show page
-		team1.teamname VS team2.teamname
+		"#{team1.teamname} VS #{team2.teamname}"
 		if(winner)
-			winner.teamname WON!
+			"#{winner.teamname} WON!"
 		list match.battles in descending order of battle.created
 		
 Battle
-	has_many :battle_participants
+	winner_team_id:integer #nil signifies battle in progress
+	
+	belongs_to :match
+	has_many :users #populate users with params from match.newbattle
+	
+	#battles will eventually be created by an automated process
+	# that looks for players of opposing teams on the same planet
+	# after processing a round of orders. for now, they will be created
+	# on the match screen?
+	
 	
 	
