@@ -1,0 +1,75 @@
+Spec for battlefork v1
+
+
+User
+	username:string validates uniqueness
+	hashed-password:string
+
+	has_many :memberships
+	has_many :teams, :through => :memberships
+	has_many :matches, :through => :teams
+	has_many :battles. :through => :matches
+	
+	new page
+		type in username
+		type in password
+		type in confirm-password
+		
+	show page
+		list user.teams as links to team.show page
+		link to Create New Team
+		list user.battles
+
+		
+#max users = 4
+Team
+	teamname:string
+	captain_user_id:integer
+
+	has_many :users, :through => :memberships
+	has_many :matches, :through => :match_participations
+	has_many :battles, :through
+	
+	new page
+		type in teamname
+		assign captain_user_id from :session[:user_id]
+						
+	show page
+		list team.users as links to user.show page
+		list team.matches as links to match.show page
+		if(:session[:user_id] == team.captain_user_id)
+			link to Create Match, add to :params :team1_id => :id
+			list team.users
+			if(users.size < 4)
+				list User.all as buttons that add user to team.users
+				redirect to admin page
+			link to destroy team
+	
+Membership
+	belongs_to :user
+	belongs_to :team
+
+#max teams = 2	
+Match
+	team1_id:integer
+	team2_id:integer
+	winner_id:integer #nil signifies match in progress
+	#loser = winner == team1 ? team2 : team1
+	
+	no new page
+	
+	Create Match page (must come from Captain clicking Create Match button)
+		assign team1 from :params[:team1_id]
+		list Team.where(:id != team1) as radio buttons
+		assign team2 from radio selection
+
+	show page
+		team1.teamname VS team2.teamname
+		if(winner)
+			winner.teamname WON!
+		list match.battles in descending order of battle.created
+		
+Battle
+	has_many :battle_participants
+	
+	
