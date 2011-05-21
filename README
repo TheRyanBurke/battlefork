@@ -2,19 +2,19 @@ Battle for Koprulu
  aka Battle for System K
  aka BattleForK
 
-Team-based meta game for Starcraft 2
+Team-based metagame for Starcraft 2
 
 Battlefork is a web-based tool for maintaining a mini-league for teams of Starcraft 2 players.
-Battlefork is inspired by Day of Defeat's community meta game "Battle For Europe".
-Each instance of Battlefork has teams of players competing over fictional planets in the Starcraft universe.  
+Battlefork is inspired by Day of Defeat's community metagame "Battle For Europe".
+A match of Battlefork is like a clan war, but with more strategy in the overall metagame.
+
+Each match of Battlefork has teams of players competing over fictional planets in the Starcraft universe.  
 Each team has a starting planet in the system from which all team members originate.  
 Planets are connected in a node-based graph.  
 Teams compete for control of these planets by playing games of Starcraft 2.  
-Team captains are responsible for logging in to the Battlefork website and issuing commands for the week of play.  
+Team captains are responsible for logging in to the Battlefork website and issuing commands for the round of play.  
 When all commands are entered, the map updates with all player movements.  
 Any opposing players sent to the same planet must play a game of Starcraft 2 to determine who will control the planet for the following week.
 Play continues until only one team remains in control of their own home planet.
 
-Detailed rules can be found in battlefork-rules.txt
-
-This app is to be made in Ruby 1.9 on Rails 3 with MySQL for a DB.
+Detailed rules can be found in doc/battlefork-rules.txt. Specification docs can be found in doc/
