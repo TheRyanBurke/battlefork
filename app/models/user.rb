@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-	has_many :memberships
-	has_many :teams, :through => :memberships
+#	has_many :memberships
+#	has_many :teams, :through => :memberships
 	
 	validates :username, :presence => true, :uniqueness => true
 	validates :password, :confirmation => true
