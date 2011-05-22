@@ -5,15 +5,7 @@
   <%= @user.username %>
 </p>
 
-<!--<p>
-  <b>Teams</b><br />
-  <ul>
-  <% #@user.teams.each do |team| %> 
-  	<li><%= #team.teamname %></li>
-  <% #end %>
-</p>-->
-
-
-
+<% if @user.id == session[:user_id] %>
 <%= link_to 'Edit', edit_user_path(@user) %> |
+<% end %>
 <%= link_to 'Back', users_path %>

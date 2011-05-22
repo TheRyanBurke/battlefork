@@ -1,9 +1,26 @@
 Battlefork::Application.routes.draw do
+#  get "sessions/new"
+
+ # get "sessions/create"
+
+  #get "sessions/destroy"
+
+controller :sessions do
+	get	'login' => :new
+	post 'login' => :create
+	delete 'logout' => :destroy
+end
+
+match 'login' => 'sessions#new'
+match 'logout' => 'sessions#destroy'
+
   resources :users
 
   resources :teams
 
   resources :matches
+  
+  #root :to => 'session#new', :as => 'login'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
