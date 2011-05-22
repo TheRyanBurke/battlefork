@@ -26,7 +26,9 @@ Team
 	teamname:string
 	captain_user_id:integer
 
+	has_many :memberships
 	has_many :users, :through => :memberships
+	has_many :match_participations
 	has_many :matches, :through => :match_participations
 	
 	new page
@@ -74,7 +76,7 @@ Match
 		"#{team1.teamname} VS #{team2.teamname}"
 		if(winner)
 			"#{winner.teamname} WON!"
-		list match.battles in descending order of battle.created
+		list match.battles in descending order of battle.created_at
 		
 Battle
 	winner_team_id:integer #nil signifies battle in progress
