@@ -1,11 +1,4 @@
 Battlefork::Application.routes.draw do
-  get "memberships/create"
-
-#  get "sessions/new"
-
- # get "sessions/create"
-
-  #get "sessions/destroy"
 
 controller :sessions do
 	get	'login' => :new
@@ -13,18 +6,15 @@ controller :sessions do
 	delete 'logout' => :destroy
 end
 
-match 'login' => 'sessions#new'
-match 'logout' => 'sessions#destroy'
-
 controller :memberships do
-	post 'create' => :create
+	get 'create' => :create
 end
 
   resources :users
 
   resources :teams
 
-  resources :matches
+  #resources :matches
   
   root :to => 'sessions#new', :as => 'login'
 

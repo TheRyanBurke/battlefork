@@ -45,7 +45,7 @@ class TeamsController < ApplicationController
     respond_to do |format|
       if @team.save
       	#p "team-controller: #{@team.id}"
-        format.html { redirect_to("/memberships/create", :team_id => @team.id) }#, :notice => 'Team was successfully created.') }
+        format.html { redirect_to(:action=>"create", :controller=>"memberships", :team_id => @team.id) }#, :notice => 'Team was successfully created.') }
         format.xml  { render :xml => @team, :status => :created, :location => @team }
       else
         format.html { render :action => "new" }

@@ -12,7 +12,7 @@
 
 <% if session[:user_id] %>
 Logged in as: <%= User.find(session[:user_id]).username %><br />
-<%= link_to "My Profile", user_path(User.find(session[:user_id])) %> | <%= link_to "Logout", logout_path %>
+<%= link_to "My Profile", user_path(User.find(session[:user_id])) %> | <%= link_to "Logout", logout_path, :method => :delete %>
 <% end %>
 
 <%= yield %>
