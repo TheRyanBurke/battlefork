@@ -20,7 +20,7 @@ match 'logout' => 'sessions#destroy'
 
   resources :matches
   
-  #root :to => 'session#new', :as => 'login'
+  root :to => 'sessions#new', :as => 'login'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
