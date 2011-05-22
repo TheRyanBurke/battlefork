@@ -7,18 +7,22 @@
 
 <p>
 	<b>Teams</b><br />
+	<% if @user.teams.empty? %>
+		<em>No teams found! Try creating a new one or request an invite from a team captain.</em>
+	<% else %>
 	<ul>
 	<% @user.teams.each do |t| %>
 		<li>
-		<%= t.teamname %>		
-		-- <%= link_to 'Disband', t, :confirm => "Disband '#{t.teamname}'? This cannot be undone.", :method => :delete %>
+		<%= link_to t.teamname, t %>
 		</li>
 	<% end %>
 	</ul>
+	<% end %>
 </p>
 
 <% if @user_matches_session %>
-<%= link_to 'Edit Profile', edit_user_path(@user) %> |
-<%= link_to 'Create New Team', new_team_path %>
+<%= button_to 'Edit Profile', edit_user_path(@user), :method => :get %>
+<%= button_to 'Create New Team', new_team_path, :method => :get %>
+<%= button_to 'View All Teams', teams_path, :method => :get %>
 <% end %>
 

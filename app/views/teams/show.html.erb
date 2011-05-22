@@ -5,6 +5,26 @@
   <%= @team.teamname %>
 </p>
 
+<p>
+	<b>Members:</b>
+	<ul>
+		<li>
+			<%= User.find(@team.captain_user_id).username %> <em>(Captain)</em>
+		</li>
+	<% @team.users.each do |u| %>
+		<% if u.id != @team.captain_user_id %>
+			<li>
+				<%= u.username %>
+			</li>
+		<% end %>
+	<% end %>
+	</ul>
+</p>
 
-<%= link_to 'Edit', edit_team_path(@team) %> |
-<%= link_to 'Back', teams_path %>
+
+<% if session[:user_id] == @team.captain_user_id %>
+<%= button_to 'Invite New Members', :action => 'invite', :controller => 'teams', :team_id => @team.id %>
+<%= button_to 'Edit Team Details', edit_team_path(@team), :method => :get %>
+<%= button_to 'Disband', @team, :confirm => "Disband '#{@team.teamname}'? This cannot be undone.", :method => :delete %>
+<% end %>
+<%= button_to 'All Teams', teams_path, :method => :get %>

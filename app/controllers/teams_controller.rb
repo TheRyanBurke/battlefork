@@ -36,16 +36,34 @@ class TeamsController < ApplicationController
   def edit
     @team = Team.find(params[:id])
   end
+  
+  def invite
+  	@team = Team.find(params[:team_id])
+  	@inviteable_users = User.all
+  	
+  	User.all.each do |u|
+  		if @team.users.include?(u)
+  			@inviteable_users.delete(u)
+  		end
+  	end
+  	
+  end
+  
+  def add_member  	  	
+  	respond_to do |format|
+        format.html { redirect_to(:action=>"create", :controller=>"memberships", :user_id => params[:add_member_id], :team_id => params[:team_id]) }
+    end  	
+  end
 
   # POST /teams
   # POST /teams.xml
   def create
     @team = Team.new(params[:team])
+    @team.captain_user_id = session[:user_id]
 
     respond_to do |format|
       if @team.save
-      	#p "team-controller: #{@team.id}"
-        format.html { redirect_to(:action=>"create", :controller=>"memberships", :team_id => @team.id) }#, :notice => 'Team was successfully created.') }
+        format.html { redirect_to(:action=>"create", :controller=>"memberships", :user_id => session[:user_id], :team_id => @team.id) }#, :notice => 'Team was successfully created.') }
         format.xml  { render :xml => @team, :status => :created, :location => @team }
       else
         format.html { render :action => "new" }

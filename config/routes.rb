@@ -4,15 +4,23 @@ controller :sessions do
 	get	'login' => :new
 	post 'login' => :create
 	delete 'logout' => :destroy
+	#get 'logout' => :destroy
 end
 
 controller :memberships do
 	get 'create' => :create
 end
 
+match 'invite' => 'teams#invite'
+
   resources :users
 
   resources :teams
+  
+controller :teams do
+	get 'invite' => :invite
+	post 'add_member' => :add_member
+end
 
   #resources :matches
   

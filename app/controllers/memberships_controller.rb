@@ -1,7 +1,7 @@
 class MembershipsController < ApplicationController
   def create
 	@membership = Membership.new
-	@membership.user_id = session[:user_id]
+	@membership.user_id = params[:user_id]
 	@membership.team_id = params[:team_id]
 		
 	if @membership.save
