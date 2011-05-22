@@ -9,7 +9,10 @@
 	<b>Teams</b><br />
 	<ul>
 	<% @user.teams.each do |t| %>
-		<li><%= t.teamname %></li>
+		<li>
+		<%= t.teamname %>		
+		-- <%= link_to 'Disband', t, :confirm => "Disband '#{t.teamname}'? This cannot be undone.", :method => :delete %>
+		</li>
 	<% end %>
 	</ul>
 </p>

@@ -74,10 +74,16 @@ class TeamsController < ApplicationController
   # DELETE /teams/1.xml
   def destroy
     @team = Team.find(params[:id])
+    
+    #need to delete all memberships first
+    @team.memberships.each do |m|
+    	m.destroy
+    end
+    
     @team.destroy
 
     respond_to do |format|
-      format.html { redirect_to(teams_url) }
+      format.html { redirect_to(user_path(session[:user_id]), :notice => "Team deleted") }
       format.xml  { head :ok }
     end
   end
