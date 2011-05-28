@@ -37,6 +37,9 @@ class TeamsController < ApplicationController
     @team = Team.find(params[:id])
   end
   
+  # POST
+  # make a list of all users, subtract users already on the current team_id
+  # views/teams/invite.html.erb
   def invite
   	@team = Team.find(params[:team_id])
   	@inviteable_users = User.all
@@ -49,6 +52,8 @@ class TeamsController < ApplicationController
   	
   end
   
+  # POST
+  # create new membership with selected user_id and the current team_id
   def add_member  	  	
   	respond_to do |format|
         format.html { redirect_to(:action=>"create", :controller=>"memberships", :user_id => params[:add_member_id], :team_id => params[:team_id]) }

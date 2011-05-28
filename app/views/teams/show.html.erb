@@ -15,6 +15,9 @@
 		<% if u.id != @team.captain_user_id %>
 			<li>
 				<%= u.username %>
+				<% if session[:user_id] == @team.captain_user_id %>
+				 -- <%= link_to "Remove", destroy_membership_path(:user_id => u.id, :team_id => @team.id), :confirm => "Remove #{u.username}?", :method => :delete %>
+				<% end %>
 			</li>
 		<% end %>
 	<% end %>

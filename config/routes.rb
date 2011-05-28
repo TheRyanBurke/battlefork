@@ -9,6 +9,7 @@ end
 
 controller :memberships do
 	get 'create' => :create
+	delete 'destroy_membership' => :destroy
 end
 
 match 'invite' => 'teams#invite'

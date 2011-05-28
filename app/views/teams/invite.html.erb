@@ -9,13 +9,11 @@
   <tr>
     <th>Username</th>
     <th></th>
-    <th></th>
   </tr>
 
 <% @inviteable_users.each do |user| %>
   <tr>
-    <td><%= user.username %></td>
-    <td><%= link_to 'Show', user %></td>
+    <td><%= link_to user.username, user %></td>
     <td><%= button_to 'Add Member', :action => 'add_member', :controller => 'teams', :team_id => @team.id, :add_member_id => user.id %>
   </tr>
 <% end %>
