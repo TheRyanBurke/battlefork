@@ -22,10 +22,20 @@ class MembershipsController < ApplicationController
   def destroy
   	@membership = Membership.where("user_id == ? AND team_id == ?", params[:user_id], params[:team_id]).first
   	
-  	@membership.destroy
+  	if Team.find(@membership.team_id).has_matches_in_progress?
+  		respond_to do |format|
+  			format.html { redirect_to(team_path(params[:team_id]), :notice => "Cannot remove user from team when matches are in progress.") }
+  		end
+  	end
+  	
+  	
   	
   	respond_to do |format|
-  		format.html { redirect_to(user_path(session[:user_id]), :notice => "#{User.find(params[:user_id]).username} removed from team #{Team.find(params[:team_id]).teamname}.")}
+  		if @membership.destroy
+  			format.html { redirect_to(user_path(session[:user_id]), :notice => "#{User.find(params[:user_id]).username} removed from team #{Team.find(params[:team_id]).teamname}.")}
+  		else
+  			format.html { redirect_to(user_path(session[:user_id]), :notice => "Could not destroy membership") }
+  		end
   	end
   end
 

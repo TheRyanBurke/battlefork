@@ -109,6 +109,10 @@ class TeamsController < ApplicationController
     	m.destroy
     end
     
+    @team.match_participations.each do |mp|
+    	mp.destroy
+    end
+    
     @team.destroy
 
     respond_to do |format|

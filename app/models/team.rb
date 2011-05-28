@@ -25,5 +25,16 @@ class Team < ActiveRecord::Base
 		end
 		invitable_users
 	end
-
+	
+	def has_full_team?
+		users.size == 4
+	end
+	
+	def has_matches_in_progress?
+		matches.each do |m|
+			if !m.team_winner_id
+				true
+			end
+		end
+	end
 end

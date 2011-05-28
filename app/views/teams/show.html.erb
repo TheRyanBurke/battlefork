@@ -40,8 +40,11 @@
 
 
 <% if session[:user_id] == @team.captain_user_id %>
+<% if @team.has_full_team? %>
 <%= button_to 'Start New Match', :action => 'opponents', :controller => 'teams', :team_id => @team.id %>
+<% else %>
 <%= button_to 'Invite New Members', :action => 'invite', :controller => 'teams', :team_id => @team.id %>
+<% end %>
 <%= button_to 'Edit Team Details', edit_team_path(@team), :method => :get %>
 <%= button_to 'Disband', @team, :confirm => "Disband '#{@team.teamname}'? This cannot be undone.", :method => :delete %>
 <% end %>
