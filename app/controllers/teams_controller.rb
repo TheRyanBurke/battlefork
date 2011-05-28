@@ -37,19 +37,25 @@ class TeamsController < ApplicationController
     @team = Team.find(params[:id])
   end
   
+  # views/teams/opponents.html.erb
+  def opponents
+  	@team = Team.find(params[:team_id])
+  	@opponents = @team.get_opponents
+  end
+  
+  #make new match with the two team ids, which will create the match_participations
+  def add_match
+  	respond_to do |format|
+  		format.html { redirect_to(:action => "create", :controller => "matches", :team1_id => params[:team1_id], :team2_id => params[:team2_id]) }
+  	end
+  end
+  
   # POST
-  # make a list of all users, subtract users already on the current team_id
+  # make a list of all users minus users already on the current team_id
   # views/teams/invite.html.erb
   def invite
   	@team = Team.find(params[:team_id])
-  	@inviteable_users = User.all
-  	
-  	User.all.each do |u|
-  		if @team.users.include?(u)
-  			@inviteable_users.delete(u)
-  		end
-  	end
-  	
+  	@inviteable_users = @team.get_invitable_users  	
   end
   
   # POST

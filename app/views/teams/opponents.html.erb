@@ -1,0 +1,24 @@
+<h1>Choose Team to Challenge</h1>
+
+<% if notice %>
+<p id="notice"><%= notice %></p>
+<% end %>
+
+
+<table>
+  <tr>
+    <th>Team</th>
+    <th></th>
+  </tr>
+
+<% @opponents.each do |opponent| %>
+  <tr>
+    <td><%= link_to opponent.teamname, opponent %></td>
+    <td><%= button_to 'Challenge', :action => 'create', :controller => 'matches', :team1_id => @team.id, :team2_id => opponent.id %>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+

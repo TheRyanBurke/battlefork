@@ -1,5 +1,9 @@
 Battlefork::Application.routes.draw do
 
+  resources :battles
+
+  resources :matches
+
 controller :sessions do
 	get	'login' => :new
 	post 'login' => :create
@@ -21,6 +25,7 @@ match 'invite' => 'teams#invite'
 controller :teams do
 	get 'invite' => :invite
 	post 'add_member' => :add_member
+	post 'opponents' => :opponents
 end
 
   #resources :matches

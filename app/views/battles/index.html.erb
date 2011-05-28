@@ -1,0 +1,23 @@
+<h1>Listing battles</h1>
+
+<table>
+  <tr>
+    <th>Match</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @battles.each do |battle| %>
+  <tr>
+    <td><%= battle.match_id %></td>
+    <td><%= link_to 'Show', battle %></td>
+    <td><%= link_to 'Edit', edit_battle_path(battle) %></td>
+    <td><%= link_to 'Destroy', battle, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Battle', new_battle_path %>
