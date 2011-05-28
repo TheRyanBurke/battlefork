@@ -88,6 +88,12 @@ class MatchesController < ApplicationController
   # DELETE /matches/1.xml
   def destroy
     @match = Match.find(params[:id])
+    
+    #need to delete all match_participations first
+    @match.match_participations.each do |mp|
+    	mp.destroy
+    end
+           
     @match.destroy
 
     respond_to do |format|

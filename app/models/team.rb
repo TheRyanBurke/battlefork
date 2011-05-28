@@ -1,5 +1,5 @@
 class Team < ActiveRecord::Base
-	has_many :memberships, :limit => 4
+	has_many :memberships
 	has_many :users, :through => :memberships
 	has_many :match_participations
 	has_many :matches, :through => :match_participations

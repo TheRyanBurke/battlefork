@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
 	has_many :memberships
 	has_many :teams, :through => :memberships
 	
+	has_many :battle_participations
+	has_many :battles, :through => :battle_participations
+	
 	validates :username, :presence => true, :uniqueness => true
 	validates :password, :confirmation => true
 	

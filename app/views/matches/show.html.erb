@@ -1,5 +1,25 @@
 <p id="notice"><%= notice %></p>
 
+<% team1 = @match.teams.first %>
+<% team2 = @match.get_other_team(@match.teams.first) %>
 
-<%= link_to 'Edit', edit_match_path(@match) %> |
-<%= link_to 'Back', matches_path %>
+<h3><%= team1.teamname %> VS <%= team2.teamname %></h3>
+Started on <%= @match.get_created_timestamp %><br /><br />
+
+<b>Battle Log</b>
+<table border="1" style="text-align=center;">
+	<th>Players</th>
+	<th>Winning Team</th>
+	
+<% @match.battles.each do |b| %>
+<tr>
+	<td><%= b.get_participants(team1) %> VS <%= b.get_participants(team2) %></td>
+	<td><%= Team.find(b.team_winner_id).teamname %></td>
+</tr>
+<% end %>
+</table>
+
+<% if @match.all_battles_complete? && @match.is_user_a_captain?(session[:user_id]) %>
+	<!-- button_to generate battles -->
+	replace this with a button to generate battles
+<% end %>

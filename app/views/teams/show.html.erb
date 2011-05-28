@@ -33,7 +33,7 @@
 		<% @team.matches.each do |m| %>
 		<tr>
 			<td width="100"><%= link_to m.get_other_team(@team.id).teamname, m.get_other_team(@team.id) %></td>
-			<td><%= m.winner(@team.id) %></td>
+			<td><%= link_to m.winner(@team.id), match_path(m) %></td>
 		</tr>
 		<% end %>
 	</table>
