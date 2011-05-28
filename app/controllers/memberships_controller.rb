@@ -26,6 +26,7 @@ class MembershipsController < ApplicationController
   		respond_to do |format|
   			format.html { redirect_to(team_path(params[:team_id]), :notice => "Cannot remove user from team when matches are in progress.") }
   		end
+  		return
   	end
   	
   	
