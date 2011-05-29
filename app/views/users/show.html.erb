@@ -20,6 +20,13 @@
 	<% end %>
 </p>
 
+<p>
+	<b>Battles</b>
+	<%= render(@user.battles) %>
+</p>
+<br />
+<br />
+
 <% if @user_matches_session %>
 <%= button_to 'Edit Profile', edit_user_path(@user), :method => :get %>
 <%= button_to 'Create New Team', new_team_path, :method => :get %>
