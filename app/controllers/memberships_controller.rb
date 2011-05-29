@@ -33,9 +33,9 @@ class MembershipsController < ApplicationController
   	
   	respond_to do |format|
   		if @membership.destroy
-  			format.html { redirect_to(user_path(session[:user_id]), :notice => "#{User.find(params[:user_id]).username} removed from team #{Team.find(params[:team_id]).teamname}.")}
+  			format.html { redirect_to(team_path(params[:team_id]), :notice => "#{User.find(params[:user_id]).username} removed from team #{Team.find(params[:team_id]).teamname}.")}
   		else
-  			format.html { redirect_to(user_path(session[:user_id]), :notice => "Could not destroy membership") }
+  			format.html { redirect_to(team_path(params[:team_id]), :notice => "Could not destroy membership") }
   		end
   	end
   end

@@ -1,1 +1,1 @@
-page.replace_html 'battles-content', :partial => 'battles/battle', :object => @match.battles
+page.replace_html 'battles-content', render @match.battles

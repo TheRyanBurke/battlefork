@@ -4,19 +4,40 @@
 <% team2 = @match.get_other_team(@match.teams.first) %>
 
 <h3><%= team1.teamname %> VS <%= team2.teamname %></h3>
-Started on <%= @match.get_created_timestamp %><br /><br />
+
+
+<div id="roster">
+	<% @match.teams.each do |t| %>
+	<div id="teamroster" style="float: left;">
+		<b><%= t.teamname %></b><br/>
+		<%= User.find(t.captain_user_id).username %> <em>(Captain)</em><br />
+		<% t.users.each do |u| %>
+			<% if u.id != t.captain_user_id %>
+				<%= u.username %><br />
+			<% end %>
+		<% end %>
+	<% end %>
+	</div>
+</div>
+<br clear="all" />
+<br />
 
 <b>Battle Log</b>
 <div id="battles-header">
-<%= team1.teamname %> Players -- 
-<%= team2.teamname %> Players -- 
-Winning Team
+	<div style="width: 125px; float: left;"><%= team1.teamname %> Players</div>
+	<div style="width: 125px; float: left;"><%= team2.teamname %> Players</div>
+	<div style="width: 125px; float: left;">Winning Team</div>
 </div>
-
-<div id="battles-content">	
+<br clear="all" />
+<div id="battles-content">
 <%= render(@match.battles) %>
+<br/>
+
 <% if @match.all_battles_complete? && @match.is_user_a_captain?(session[:user_id]) %>
 	<%= button_to "Generate Battles", matches_generate_battles_path(:match => @match) %>
 <% end %>
 </div>
+<br /><br />
+Started on <%= @match.get_created_timestamp %><br /><br />
+
 

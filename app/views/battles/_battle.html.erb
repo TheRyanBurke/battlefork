@@ -1,4 +1,6 @@
 <% players = battle.get_all_participants %>
-<li>
-	<%= players[0] %> -- <%= players[1] %> -- <%= battle.team_winner_to_s %>
-</li>
+<div id="battle[<%= battle_counter %>]" class="<%= battle_counter.odd? ? 'oddline' : 'evenline' %>">
+	<div style="width: 125px; float: left;"><%= players[0] %></div>
+	<div style="width: 125px; float: left;"><%= players[1] %></div>
+	<div style="width: 150px; float: left;"><%= battle.team_winner_to_s %></div>
+</div>

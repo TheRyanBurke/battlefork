@@ -60,18 +60,18 @@ class Match < ActiveRecord::Base
 			
 			foo = teams.all.first
 			bar = get_other_team(foo.id)
-			puts "team1 id = " + foo.id.to_s
-			puts "team2 id = " + bar.id.to_s
+			logger.debug ("team1 id = " + foo.id.to_s)
+			logger.debug ("team2 id = " + bar.id.to_s)
 			
 			@bp = BattleParticipation.new
 			@bp.battle_id = @battle.id
-			@bp.user_id = foo.users.first
+			@bp.user_id = foo.users.first.id
 			@bp.save
 			
-			@bp = BattleParticipation.new
-			@bp.battle_id = @battle.id
-			@bp.user_id = get_other_team(foo.id).users.first
-			@bp.save
+			@bp2 = BattleParticipation.new
+			@bp2.battle_id = @battle.id
+			@bp2.user_id = bar.users.first.id
+			@bp2.save
 		end
 	end
 	

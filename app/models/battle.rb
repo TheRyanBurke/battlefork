@@ -22,7 +22,7 @@ class Battle < ActiveRecord::Base
 	def get_all_participants
 		participants_array = []
 		match.teams.each do |t|
-			participants_array << get_team_participants(t).join
+			participants_array << (get_team_participants(t).join)
 		end
 		participants_array
 	end

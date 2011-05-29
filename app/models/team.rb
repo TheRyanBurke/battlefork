@@ -36,5 +36,6 @@ class Team < ActiveRecord::Base
 				true
 			end
 		end
+		false
 	end
 end
