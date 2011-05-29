@@ -7,19 +7,16 @@
 Started on <%= @match.get_created_timestamp %><br /><br />
 
 <b>Battle Log</b>
-<table border="1" style="text-align=center;">
-	<th>Players</th>
-	<th>Winning Team</th>
-	
-<% @match.battles.each do |b| %>
-<tr>
-	<td><%= b.get_participants(team1) %> VS <%= b.get_participants(team2) %></td>
-	<td><%= Team.find(b.team_winner_id).teamname %></td>
-</tr>
-<% end %>
-</table>
+<div id="battles-header">
+<%= team1.teamname %> Players -- 
+<%= team2.teamname %> Players -- 
+Winning Team
+</div>
 
+<div id="battles-content">	
+<%= render(@match.battles) %>
 <% if @match.all_battles_complete? && @match.is_user_a_captain?(session[:user_id]) %>
-	<!-- button_to generate battles -->
-	replace this with a button to generate battles
+	<%= button_to "Generate Battles", matches_generate_battles_path(:match => @match) %>
 <% end %>
+</div>
+

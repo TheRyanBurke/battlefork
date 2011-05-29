@@ -3,6 +3,8 @@ Battlefork::Application.routes.draw do
   resources :battles
 
   resources :matches
+  
+  match 'matches/generate_battles' => 'matches#generate_battles'
 
 controller :sessions do
 	get	'login' => :new
@@ -28,7 +30,6 @@ controller :teams do
 	post 'opponents' => :opponents
 end
 
-  #resources :matches
   
   root :to => 'sessions#new', :as => 'login'
 

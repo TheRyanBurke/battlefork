@@ -73,6 +73,12 @@ class BattlesController < ApplicationController
   # DELETE /battles/1.xml
   def destroy
     @battle = Battle.find(params[:id])
+    
+    #first destroy battle_participations
+    @battle.battle_participations.each do |bp|
+    	bp.destroy
+    end
+    
     @battle.destroy
 
     respond_to do |format|

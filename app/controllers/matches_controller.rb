@@ -101,4 +101,18 @@ class MatchesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def generate_battles
+  	@match = Match.find(params[:match])
+  	
+  	@match.generate_battles
+  	
+  	respond_to do |format|
+  		format.html { redirect_to(@match) }
+  		format.js
+  	end
+  	
+  end
+  
+  
 end

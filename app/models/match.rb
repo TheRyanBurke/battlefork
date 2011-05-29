@@ -53,6 +53,26 @@ class Match < ActiveRecord::Base
 		#if match has no winner
 		# and all existing match.battles are complete
 		# make 4 new battles, assign 1 player from each team
+		if !team_winner_id && all_battles_complete?
+			@battle = Battle.new
+			@battle.match_id = id
+			@battle.save
+			
+			foo = teams.all.first
+			bar = get_other_team(foo.id)
+			puts "team1 id = " + foo.id.to_s
+			puts "team2 id = " + bar.id.to_s
+			
+			@bp = BattleParticipation.new
+			@bp.battle_id = @battle.id
+			@bp.user_id = foo.users.first
+			@bp.save
+			
+			@bp = BattleParticipation.new
+			@bp.battle_id = @battle.id
+			@bp.user_id = get_other_team(foo.id).users.first
+			@bp.save
+		end
 	end
 	
 	def get_created_timestamp
