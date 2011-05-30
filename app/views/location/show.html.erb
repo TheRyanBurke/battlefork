@@ -1,0 +1,14 @@
+<h1>Location</h1>
+
+<%= @location.name %>
+<%= @location.posx %>, <%= @location.posy %>
+
+<% @location.origins.each do |o| %>
+	<%= o.name %><br/>
+	<%= o.posx =>, <%= o.posy %><br /><br />
+<% end &>
+
+<% @location.destinations.each do |o| %>
+	<%= o.name %><br/>
+	<%= o.posx =>, <%= o.posy %><br /><br />
+<% end &>

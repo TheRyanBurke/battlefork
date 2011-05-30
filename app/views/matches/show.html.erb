@@ -5,6 +5,9 @@
 
 <h3><%= team1.teamname %> VS <%= team2.teamname %></h3>
 
+<div id="map">
+	<%= render(@match.map) %>
+</div>
 
 <div id="roster">
 	<% @match.teams.each do |t| %>

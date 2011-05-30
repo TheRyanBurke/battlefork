@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110528224556) do
+ActiveRecord::Schema.define(:version => 20110530134423) do
 
   create_table "battle_participations", :force => true do |t|
     t.integer  "user_id"
@@ -24,6 +24,29 @@ ActiveRecord::Schema.define(:version => 20110528224556) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "team_winner_id"
+  end
+
+  create_table "location_links", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "origin"
+    t.integer  "destination"
+  end
+
+  create_table "locations", :force => true do |t|
+    t.string   "name"
+    t.integer  "posx"
+    t.integer  "posy"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "map_id"
+    t.integer  "owner_team_id"
+  end
+
+  create_table "maps", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "match_id"
   end
 
   create_table "match_participations", :force => true do |t|
@@ -51,6 +74,13 @@ ActiveRecord::Schema.define(:version => 20110528224556) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "captain_user_id"
+  end
+
+  create_table "user_locations", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "location_id"
   end
 
   create_table "users", :force => true do |t|

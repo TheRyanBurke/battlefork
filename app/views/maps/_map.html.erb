@@ -1,0 +1,15 @@
+<% grid = map.make_map_grid %>
+<% x = 0 %>
+<% for element in grid %>
+	<% if element %>
+		<%= element.name[0] %>
+	<% else %>
+		x
+	<% end %>
+	<% x += 1 %>
+	<% if x > 7 %>
+		<% x = 0 %>
+		<br />
+	<% end %>
+<% end %>
+

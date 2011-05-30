@@ -2,6 +2,7 @@ class Match < ActiveRecord::Base
 	has_many :battles
 	has_many :match_participations
 	has_many :teams, :through => :match_participations
+	has_one :map
 	
 	
 	def get_other_team(a_team_id)

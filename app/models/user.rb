@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
 	has_many :battle_participations
 	has_many :battles, :through => :battle_participations
 	
+	has_many :user_locations
+	has_many :locations, :through => :user_locations
+	
 	validates :username, :presence => true, :uniqueness => true
 	validates :password, :confirmation => true
 	
@@ -27,11 +30,22 @@ class User < ActiveRecord::Base
 	end
 	
 	def User.authenticate(name, password)
-		if user = User.where("username == ?", name).first#find_by_name(name)
+		if user = User.where("username == ?", name).first
 			if user.hashed_password == encrypt_password(password, user.salt)
 				user
 			end
 		end
+	end
+	
+	def get_team_for_match(a_match)
+		teams.each do |t|
+			t.matches do |m|
+				if m == a_match
+					return t
+				end
+			end
+		end
+		errors.add("Could not find a team for that match for this user")
 	end
 	
 	private
