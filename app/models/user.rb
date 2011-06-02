@@ -48,6 +48,10 @@ class User < ActiveRecord::Base
 		errors.add("Could not find a team for that match for this user")
 	end
 	
+	def get_user_location_for_match(a_match)
+		user_locations.where("match_id == ?", a_match.id).first.location
+	end
+	
 	private
 	
 		def password_must_be_present

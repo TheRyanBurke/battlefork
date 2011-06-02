@@ -2,6 +2,16 @@ class Map < ActiveRecord::Base
 	belongs_to :match
 	has_many :locations	
 	
+	def get_homeworld_for_team(a_team)
+		locations.each do |l|
+			if l.homeworld
+				if l.homeworld == a_team.id
+					return l
+				end
+			end
+		nil
+	end
+	
 	#hard-coded locations, revisit this in v2
 	# 
 	# 8x8 grid, x is a planet, h is a capital
@@ -28,6 +38,7 @@ class Map < ActiveRecord::Base
 		a0.posx = 0
 		a0.posy = 0
 		a0.map_id = id
+		a0.homeworld = match.get_first_team.id
 		a0.save
 		
 		c0 = Location.new
@@ -133,6 +144,7 @@ class Map < ActiveRecord::Base
 		h7.posx = 7
 		h7.posy = 7
 		h7.map_id = id
+		h7.homeworld = match.get_other_team.id
 		h7.save
 		
 		a0c0 = LocationLink.new

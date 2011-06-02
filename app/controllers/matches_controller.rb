@@ -62,6 +62,11 @@ class MatchesController < ApplicationController
         mp_for_team2.match_id = @match.id
         mp_for_team2.save
         
+        match_participaions.each do |mp|
+			mp.create_user_locations
+			mp.set_players_to_starting_locations
+        end
+        
         redirect_to(@match, :notice => 'Match was successfully created.') 
         }
         format.xml  { render :xml => @match, :status => :created, :location => @match }
@@ -93,11 +98,9 @@ class MatchesController < ApplicationController
   def destroy
     @match = Match.find(params[:id])
     
-    #need to delete all match_participations first
-    @match.match_participations.each do |mp|
-    	mp.destroy
-    end
-           
+    @match.destroy_all_user_locations
+    @match.destroy_all_match_participations
+               
     @match.destroy
 
     respond_to do |format|

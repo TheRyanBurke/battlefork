@@ -4,10 +4,19 @@ class Match < ActiveRecord::Base
 	has_many :teams, :through => :match_participations
 	has_one :map
 	
+	has_many :user_locations
+	has_many :users, :through => :user_locations
+	
+	#should have same :locations through :user_locations and :map
+	
+	
+	def get_first_team
+		teams.all.first
+	end
 	
 	def get_other_team(a_team_id)
 		#look up teams, return the teamname of the one that doesn't match this id
-		teams.where("team_id != ?", a_team_id).first
+		teams.where("team_id != ?", get_first_team.id).first
 	end
 	
 	def winner(a_team_id)
@@ -16,6 +25,15 @@ class Match < ActiveRecord::Base
 		else
 			"In progress"
 		end
+	end
+	
+	def get_user_locations_for_team(a_team)
+		team_result = teams.where("team_id == ?", a_team.id).first
+		team_result.users.user_locations.where("match_id == ?", id)
+	end
+	
+	def get_homeworld_for_team(a_team)
+		map.get_homeworld_for_team(a_team)
 	end
 	
 	def all_orders_submit?
@@ -81,4 +99,17 @@ class Match < ActiveRecord::Base
 		return timestamp.strftime("%Y-%m-%d %I:%M %p ") + timestamp.zone
 	end
 
+
+	private
+	def destroy_all_match_participations
+		match_participations.each do |mp|
+			mp.destroy
+		end
+	end
+	
+	def destroy_all_user_locations
+		user_locations.each do |ul|
+			ul.destroy
+		end
+	end
 end

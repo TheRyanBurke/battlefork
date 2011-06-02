@@ -25,6 +25,13 @@
 <br clear="all" />
 <br />
 
+<b>User Locations</b>
+<% @match.teams.each do |t| %>
+	<% t.users.each do |u| %>
+		<%= u.get_user_location_for_match(@match).name %>
+	<% end %>
+<% end %>
+
 <b>Battle Log</b>
 <div id="battles-header">
 	<div style="width: 125px; float: left;"><%= team1.teamname %> Players</div>
