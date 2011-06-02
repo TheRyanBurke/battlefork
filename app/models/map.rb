@@ -9,6 +9,8 @@ class Map < ActiveRecord::Base
 					return l
 				end
 			end
+		
+		end
 		nil
 	end
 	

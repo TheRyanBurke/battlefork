@@ -11,7 +11,7 @@ class Match < ActiveRecord::Base
 	
 	
 	def get_first_team
-		teams.all.first
+		teams.first
 	end
 	
 	def get_other_team(a_team_id)
