@@ -6,7 +6,8 @@ class MatchParticipation < ActiveRecord::Base
 	def set_players_to_starting_locations
 		homeworld = match.get_homeworld_for_team(team)
 		match.get_user_locations_for_team(team).each do |ul|
-			ul.location = homeworld.id
+			ul.location = homeworld
+			ul.save
 			#need to do this?? homeworld.user_locations << ul
 		end			
 	end

@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def get_user_location_for_match(a_match)
-		user_locations.where("match_id == ?", a_match.id).first.location
+		UserLocation.where("match_id == ? AND user_id == ?", a_match.id, id).first.location
 	end
 	
 	private

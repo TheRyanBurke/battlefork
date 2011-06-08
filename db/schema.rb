@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110602193213) do
+ActiveRecord::Schema.define(:version => 20110608044939) do
 
   create_table "battle_participations", :force => true do |t|
     t.integer  "user_id"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20110602193213) do
     t.datetime "updated_at"
     t.integer  "map_id"
     t.integer  "owner_team_id"
+    t.integer  "homeworld"
   end
 
   create_table "maps", :force => true do |t|

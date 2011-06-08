@@ -42,11 +42,9 @@ class MatchesController < ApplicationController
   def create
     @match = Match.new(params[:match])
 
-	map = Map.new(:match_id => @match.id)
-	map.save
-	map.generate_locations
 	
-	@match.map = map
+	
+	#@match.map = map
 
 	#make two match_participations, one for each team paired with this match
     respond_to do |format|
@@ -62,10 +60,17 @@ class MatchesController < ApplicationController
         mp_for_team2.match_id = @match.id
         mp_for_team2.save
         
-        match_participaions.each do |mp|
+        map = Map.new
+		map.match_id = @match.id		
+		map.save
+        map.generate_locations
+        
+        @match.match_participations.each do |mp|
 			mp.create_user_locations
 			mp.set_players_to_starting_locations
         end
+        
+        
         
         redirect_to(@match, :notice => 'Match was successfully created.') 
         }

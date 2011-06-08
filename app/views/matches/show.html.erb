@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <% team1 = @match.teams.first %>
-<% team2 = @match.get_other_team(@match.teams.first) %>
+<% team2 = @match.get_other_team %>
 
 <h3><%= team1.teamname %> VS <%= team2.teamname %></h3>
 

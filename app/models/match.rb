@@ -14,7 +14,7 @@ class Match < ActiveRecord::Base
 		teams.first
 	end
 	
-	def get_other_team(a_team_id)
+	def get_other_team
 		#look up teams, return the teamname of the one that doesn't match this id
 		teams.where("team_id != ?", get_first_team.id).first
 	end
@@ -28,8 +28,12 @@ class Match < ActiveRecord::Base
 	end
 	
 	def get_user_locations_for_team(a_team)
-		team_result = teams.where("team_id == ?", a_team.id).first
-		team_result.users.user_locations.where("match_id == ?", id)
+		ul_for_team = []
+		
+		Team.find(a_team.id).users.each do |u|			
+			ul_for_team << user_locations.where("match_id == ? AND user_id == ?", id, u.id).first
+		end
+		ul_for_team
 	end
 	
 	def get_homeworld_for_team(a_team)
@@ -100,7 +104,6 @@ class Match < ActiveRecord::Base
 	end
 
 
-	private
 	def destroy_all_match_participations
 		match_participations.each do |mp|
 			mp.destroy
