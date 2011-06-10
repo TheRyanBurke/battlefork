@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(:version => 20110608044939) do
   create_table "location_links", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "origin"
-    t.integer  "destination"
+    t.integer  "origin_id"
+    t.integer  "destination_id"
   end
 
   create_table "locations", :force => true do |t|

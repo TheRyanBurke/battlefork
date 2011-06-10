@@ -42,7 +42,10 @@ class Match < ActiveRecord::Base
 	
 	def all_orders_submit?
 		#if all team captains have given each of their players an order
-		# return true
+		#user has an order, which is a location
+		#generate battles can nil the order of all users
+		#if all match users have an order, return true
+		
 	end
 	
 	def all_battles_complete?

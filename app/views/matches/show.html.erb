@@ -13,10 +13,17 @@
 	<% @match.teams.each do |t| %>
 	<div id="teamroster" style="float: left;">
 		<b><%= t.teamname %></b><br/>
-		<%= User.find(t.captain_user_id).username %> <em>(Captain)</em><br />
+		<% team_captain = User.find(t.captain_user_id) %>
+		<%= team_captain.username %> <em>(Captain)</em>
+		<% connected_locations = team_captain.get_user_location_for_match(@match).get_all_connected_locations %>
+		<%= collection_select(:team_captain, :username, connected_locations, :id, :name) %>
+		<br />
 		<% t.users.each do |u| %>
 			<% if u.id != t.captain_user_id %>
-				<%= u.username %><br />
+				<%= u.username %>
+				<% connected_locations = u.get_user_location_for_match(@match).get_all_connected_locations %>
+				<%= collection_select(:u, :username, connected_locations, :id, :name) %>		
+				<br />
 			<% end %>
 		<% end %>
 	<% end %>
