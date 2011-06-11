@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110608044939) do
+ActiveRecord::Schema.define(:version => 20110611011923) do
 
   create_table "battle_participations", :force => true do |t|
     t.integer  "user_id"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20110608044939) do
     t.integer  "user_id"
     t.integer  "location_id"
     t.integer  "match_id"
+    t.integer  "next_location_id"
   end
 
   create_table "users", :force => true do |t|

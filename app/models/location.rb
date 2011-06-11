@@ -10,7 +10,10 @@ class Location < ActiveRecord::Base
 	has_many :users, :through => :user_locations
 	
 	def get_all_connected_locations
-		all_locations = [self]
+		copy_of_self = self
+		copy_of_self.name += " (stay)"
+		
+		all_locations = [copy_of_self]
 		
 		destinations.each do |d|
 			all_locations << d
@@ -21,6 +24,41 @@ class Location < ActiveRecord::Base
 		end
 		
 		all_locations
+	end
+	
+	def has_multiple_teams_present?
+		set_of_teams_here = []
+		user_locations.where("match_id == ?", map.match.id).each do |ul|
+			if !set_of_teams_here.include?(ul.user.get_team_for_match(map.match).id)
+				set_of_teams_here << ul.user.get_team_for_match(map.match).id
+			end
+		end
+		if set_of_teams_here.length > 1
+			return set_of_teams_here
+		else
+			return false
+		end
+	end
+	
+	def has_one_team_present?
+		set_of_teams_here = []
+		user_locations.where("match_id == ?", map.match.id).each do |ul|
+			if !set_of_teams_here.include?(ul.user.get_team_for_match(map.match).id)
+				set_of_teams_here << ul.user.get_team_for_match(map.match).id
+			end
+		end
+		if set_of_teams_here.length > 0
+			return set_of_teams_here.first
+		else
+			return false
+		end
+	end
+	
+	def get_all_users_here
+		set_of_users_here = []
+		user_locations.where("match_id == ?", map.match.id).each do |ul|
+			set_of_users_here << ul.user
+		end
 	end
 
 end

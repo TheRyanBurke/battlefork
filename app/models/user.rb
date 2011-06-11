@@ -39,13 +39,10 @@ class User < ActiveRecord::Base
 	
 	def get_team_for_match(a_match)
 		teams.each do |t|
-			t.matches do |m|
-				if m == a_match
-					return t
-				end
+			if t.match_participations.where("match_id == ?", a_match.id).first
+				return t
 			end
 		end
-		errors.add("Could not find a team for that match for this user")
 	end
 	
 	def get_user_location_for_match(a_match)

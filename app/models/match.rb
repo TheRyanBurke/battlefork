@@ -7,7 +7,7 @@ class Match < ActiveRecord::Base
 	has_many :user_locations
 	has_many :users, :through => :user_locations
 	
-	#should have same :locations through :user_locations and :map
+	#come back to this and look up :dependent => :destroy to see if it makes sense here
 	
 	
 	def get_first_team
@@ -41,11 +41,15 @@ class Match < ActiveRecord::Base
 	end
 	
 	def all_orders_submit?
-		#if all team captains have given each of their players an order
-		#user has an order, which is a location
-		#generate battles can nil the order of all users
-		#if all match users have an order, return true
-		
+		if all_battles_complete?
+			user_locations.each do |ul|
+				if !ul.next_location
+					return false
+				end
+			end
+			return true
+		end
+		false		
 	end
 	
 	def all_battles_complete?
@@ -69,6 +73,17 @@ class Match < ActiveRecord::Base
 		false
 	end
 	
+	def is_user_a_captain_of_this_team?(a_user_id, a_team_id)
+		if Team.find(a_team_id).captain_user_id == a_user_id
+			return true
+		end
+		false
+	end
+	
+	def does_user_have_next_location?(a_user)
+		user_locations.where("user_id == ?", a_user.id).first.next_location
+	end
+	
 	def end_conditions_met?
 		#does each team own their capital (v1)
 		#does each team have at least 1 player still in the match (v2)
@@ -76,28 +91,26 @@ class Match < ActiveRecord::Base
 	end
 	
 	def generate_battles
-		#if match has no winner
-		# and all existing match.battles are complete
-		# make 4 new battles, assign 1 player from each team
-		if !team_winner_id && all_battles_complete?
-			@battle = Battle.new
-			@battle.match_id = id
-			@battle.save
+		map.locations.each do |l|
+			if l.has_multiple_teams_present?
+				battle = Battle.new
+				battle.match_id = id
+				battle.save
+				
+				l.get_all_users_here.each do |u|
+					bp = BattleParticipation.new
+					bp.battle_id = battle.id
+					bp.user_id = u.id
+					bp.save
+				end
+				
+				l.team_owner_id = nil
+				l.save
+			elsif l.has_one_team_present?
+				l.team_owner_id = l.has_one_team_present?.id
+				l.save
+			end
 			
-			foo = teams.all.first
-			bar = get_other_team(foo.id)
-			logger.debug ("team1 id = " + foo.id.to_s)
-			logger.debug ("team2 id = " + bar.id.to_s)
-			
-			@bp = BattleParticipation.new
-			@bp.battle_id = @battle.id
-			@bp.user_id = foo.users.first.id
-			@bp.save
-			
-			@bp2 = BattleParticipation.new
-			@bp2.battle_id = @battle.id
-			@bp2.user_id = bar.users.first.id
-			@bp2.save
 		end
 	end
 	
@@ -105,7 +118,21 @@ class Match < ActiveRecord::Base
 		timestamp = created_at.getlocal
 		return timestamp.strftime("%Y-%m-%d %I:%M %p ") + timestamp.zone
 	end
+	
+	def move_all_users_to_next_location
+		user_locations.each do |ul|
+			ul.location = ul.next_location
+			ul.save
+		end
+		clear_all_next_locations
+	end
 
+	def clear_all_next_locations
+		user_locations.each do |ul|
+			ul.next_location = nil
+			ul.save
+		end
+	end
 
 	def destroy_all_match_participations
 		match_participations.each do |mp|

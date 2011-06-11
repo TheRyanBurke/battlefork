@@ -1,10 +1,12 @@
 Battlefork::Application.routes.draw do
 
   resources :battles
+  
+  match 'matches/:id/generate_orders' => 'matches#generate_orders', :as => "generate_orders"
 
   resources :matches
   
-  match 'matches/generate_battles' => 'matches#generate_battles'
+  
 
 controller :sessions do
 	get	'login' => :new

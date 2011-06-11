@@ -1,15 +1,31 @@
 <% grid = map.make_map_grid %>
 <% x = 0 %>
+<table width="512px" height="512px" background="/images/starfieldgrid512.png">
+<tr>
 <% for element in grid %>
+	<td>
 	<% if element %>
-		<%= element.name[0] %>
-	<% else %>
-		x
+		<% if element.has_multiple_teams_present? %>
+			<img src="/images/conflictplanet64.png" width="80%">
+		<% elsif element.owner_team_id %>
+			<% if element.owner_team_id == map.match.get_first_team.id %>
+				<img src="/images/redplanet64.png" width="80%">
+			<% else %>
+				<img src="/images/blueplanet64.png" width="80%">
+			<% end %>
+		<% else %>
+			<img src="/images/whiteplanet64.png" width="80%">
+		<% end %>
+		<br />
+		<span style="color: white"><%= element.name %></span>
 	<% end %>
+	</td>
 	<% x += 1 %>
 	<% if x > 7 %>
 		<% x = 0 %>
-		<br />
+		</tr><tr>
 	<% end %>
 <% end %>
+</tr>
+</table>
 

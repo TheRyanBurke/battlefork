@@ -114,10 +114,26 @@ class MatchesController < ApplicationController
     end
   end
   
-  def generate_battles
-  	@match = Match.find(params[:match])
+  def generate_orders
+  	@match = Match.find(params[:id])
   	
-  	@match.generate_battles
+  	if params[:user_order]
+		params[:user_order].each do |u|
+			user_id = u[0]
+			location_id = u[1]
+			puts "userid: " + user_id + " locid: " + location_id
+			user_loc = @match.user_locations.where("user_id == ?", user_id).first
+			user_loc.next_location = Location.find(location_id)
+			user_loc.save
+		end
+  	#else
+	#	@match.clear_all_next_locations
+  	end
+  	
+  	if @match.all_orders_submit?
+		@match.move_all_users_to_next_location
+		@match.generate_battles
+	end
   	
   	respond_to do |format|
   		format.html { redirect_to(@match) }
