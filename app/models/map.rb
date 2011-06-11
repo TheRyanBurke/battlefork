@@ -36,7 +36,7 @@ class Map < ActiveRecord::Base
 	#7 x----x---------x-----h
 	def generate_locations
 		a0 = Location.new
-		a0.name = "alpha"
+		a0.name = "Earf"
 		a0.posx = 0
 		a0.posy = 0
 		a0.map_id = id
@@ -44,105 +44,105 @@ class Map < ActiveRecord::Base
 		a0.save
 		
 		c0 = Location.new
-		c0.name = "bravo"
+		c0.name = "Hoth"
 		c0.posx = 0
 		c0.posy = 2
 		c0.map_id = id
 		c0.save
 		
 		f0 = Location.new
-		f0.name = "charlie"
+		f0.name = "Fhloston"
 		f0.posx = 0
 		f0.posy = 5
 		f0.map_id = id
 		f0.save
 		
 		h0 = Location.new
-		h0.name = "delta"
+		h0.name = "Site P"
 		h0.posx = 0
 		h0.posy = 7
 		h0.map_id = id
 		h0.save
 		
 		d2 = Location.new
-		d2.name = "echo"
+		d2.name = "LV-426"
 		d2.posx = 2
 		d2.posy = 3
 		d2.map_id = id
 		d2.save
 		
 		g2 = Location.new
-		g2.name = "foxtrot"
+		g2.name = "Alderaan"
 		g2.posx = 2
 		g2.posy = 6
 		g2.map_id = id
 		g2.save		
 		
 		a3 = Location.new
-		a3.name = "golf"
+		a3.name = "Mar Sera"
 		a3.posx = 3
 		a3.posy = 0
 		a3.map_id = id
 		a3.save
 		
 		f3 = Location.new
-		f3.name = "hotel"
+		f3.name = "Thundera"
 		f3.posx = 3
 		f3.posy = 5
 		f3.map_id = id
 		f3.save
 		
 		c4 = Location.new
-		c4.name = "india"
+		c4.name = "Asteroid M"
 		c4.posx = 4
 		c4.posy = 2
 		c4.map_id = id
 		c4.save
 		
 		h4 = Location.new
-		h4.name = "juliet"
+		h4.name = "Caprica"
 		h4.posx = 4
 		h4.posy = 7
 		h4.map_id = id
 		h4.save
 		
 		b5 = Location.new
-		b5.name = "kilo"
+		b5.name = "Miranda"
 		b5.posx = 5
 		b5.posy = 1
 		b5.map_id = id
 		b5.save
 		
 		e5 = Location.new
-		e5.name = "lima"
+		e5.name = "Outland"
 		e5.posx = 5
 		e5.posy = 4
 		e5.map_id = id
 		e5.save
 		
 		a7 = Location.new
-		a7.name = "mike"
+		a7.name = "Betelgeuse Five"
 		a7.posx = 7
 		a7.posy = 0
 		a7.map_id = id
 		a7.save
 		
 		c7 = Location.new
-		c7.name = "november"
+		c7.name = "Xoth"
 		c7.posx = 7
 		c7.posy = 2
 		c7.map_id = id
 		c7.save		
 		
 		f7 = Location.new
-		f7.name = "oscar"
+		f7.name = "Krypton"
 		f7.posx = 7
 		f7.posy = 5
 		f7.map_id = id
 		f7.save
 		
 		h7 = Location.new
-		h7.name = "papa"
+		h7.name = "Eternia"
 		h7.posx = 7
 		h7.posy = 7
 		h7.map_id = id
