@@ -36,6 +36,10 @@ class BattlesController < ApplicationController
   def edit
     @battle = Battle.find(params[:id])
     
+    if  @battle.team_winner_id
+		redirect_to(@battle.match, :notice => 'That battle is already complete.')
+	end
+    
 	if !@battle.is_user_allowed_to_report_winner(session[:user_id])
 		redirect_to(User.find(session[:user_id]), :notice => 'You do not have permission to report the winner of that battle.')
 	end
@@ -65,6 +69,9 @@ class BattlesController < ApplicationController
 
     respond_to do |format|
       if @battle.update_attributes(params[:battle])
+		#move loser to home, mark location.owner to winner
+		@battle.signal_match_of_battle_completion
+		
         format.html { redirect_to(@battle, :notice => 'Battle was successfully updated.') }
         format.xml  { head :ok }
       else

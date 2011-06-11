@@ -87,7 +87,8 @@ class Match < ActiveRecord::Base
 	def end_conditions_met?
 		#does each team own their capital (v1)
 		#does each team have at least 1 player still in the match (v2)
-		#if any conditions are false, then trigger match end and clean up
+		#if any conditions are true, then trigger match end and clean up
+		false
 	end
 	
 	def generate_battles
@@ -107,11 +108,32 @@ class Match < ActiveRecord::Base
 				l.team_owner_id = nil
 				l.save
 			elsif l.has_one_team_present?
-				l.team_owner_id = l.has_one_team_present?.id
+				l.team_owner_id = l.has_one_team_present?
 				l.save
 			end
 			
 		end
+	end
+	
+	def process_battle_completion(a_battle)
+		#check end conditions
+		if end_conditions_met?
+		end
+				
+		
+		a_battle.users.each do |u|
+			user_team = u.get_team_for_match(self)
+			user_loc = u.get_user_location_for_match(self)
+			if user_team.id != a_battle.team_winner_id
+				#move losers to homeworld				
+				user_loc.location = get_homeworld_for_team(user_team)
+				user_loc.save			
+			else
+				#mark location owner as winner team id
+				user_loc.location.owner_team_id = a_battle.team_winner_id
+				user_loc.location.save
+			end			
+		end		
 	end
 	
 	def get_created_timestamp

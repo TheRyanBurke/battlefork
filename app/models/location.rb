@@ -47,7 +47,7 @@ class Location < ActiveRecord::Base
 				set_of_teams_here << ul.user.get_team_for_match(map.match).id
 			end
 		end
-		if set_of_teams_here.length > 0
+		if set_of_teams_here.length == 1
 			return set_of_teams_here.first
 		else
 			return false

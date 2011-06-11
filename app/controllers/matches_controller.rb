@@ -40,11 +40,7 @@ class MatchesController < ApplicationController
   # POST /matches
   # POST /matches.xml
   def create
-    @match = Match.new(params[:match])
-
-	
-	
-	#@match.map = map
+    @match = Match.new(params[:match])	
 
 	#make two match_participations, one for each team paired with this match
     respond_to do |format|
@@ -68,9 +64,7 @@ class MatchesController < ApplicationController
         @match.match_participations.each do |mp|
 			mp.create_user_locations
 			mp.set_players_to_starting_locations
-        end
-        
-        
+        end       
         
         redirect_to(@match, :notice => 'Match was successfully created.') 
         }

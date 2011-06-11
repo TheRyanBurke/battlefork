@@ -3,8 +3,12 @@
 	<div style="width: 125px; float: left;"><%= players[0] %></div>
 	<div style="width: 125px; float: left;"><%= players[1] %></div>
 	<div style="width: 150px; float: left;">
-		<% if battle.is_user_allowed_to_report_winner(session[:user_id]) %>
-			<%= button_to "Report Winner", edit_battle_path(battle), :method => :get %>
+		<% if !battle.team_winner_id %>
+			<% if battle.is_user_allowed_to_report_winner(session[:user_id]) %>
+				<%= button_to "Report Winner", edit_battle_path(battle), :method => :get %>
+			<% else %>
+				In Progress
+			<% end %>
 		<% else %>
 			<%= battle.team_winner_to_s %>
 		<% end %>

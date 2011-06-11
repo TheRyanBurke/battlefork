@@ -44,5 +44,9 @@ class Battle < ActiveRecord::Base
 		
 		false
 	end
+	
+	def signal_match_of_battle_completion
+		match.process_battle_completion(self)
+	end
 
 end
