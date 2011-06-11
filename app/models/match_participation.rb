@@ -8,6 +8,7 @@ class MatchParticipation < ActiveRecord::Base
 		match.get_user_locations_for_team(team).each do |ul|
 			ul.location = homeworld
 			ul.location.owner_team_id = team.id
+			ul.location.save
 			ul.save
 		end			
 	end
