@@ -10,12 +10,18 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :match_id %><br />
-    <%= f.text_field :match_id %>
+  
+  <div>
+	<% @battle.users.each do |u| %>
+		<%= radio_button("battle", "team_winner_id", u.get_team_for_match(@battle.match).id) %>
+		<%= u.username + " from " + u.get_team_for_match(@battle.match).teamname %>
+		<br />
+	<% end %>
   </div>
+
+<br />
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Report Winner" %>
   </div>
 <% end %>

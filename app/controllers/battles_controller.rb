@@ -35,6 +35,11 @@ class BattlesController < ApplicationController
   # GET /battles/1/edit
   def edit
     @battle = Battle.find(params[:id])
+    
+	if !@battle.is_user_allowed_to_report_winner(session[:user_id])
+		redirect_to(User.find(session[:user_id]), :notice => 'You do not have permission to report the winner of that battle.')
+	end
+    
   end
 
   # POST /battles
