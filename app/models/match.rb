@@ -105,7 +105,7 @@ class Match < ActiveRecord::Base
 					bp.save
 				end
 				
-				l.team_owner_id = nil
+				l.owner_team_id = nil
 				l.save
 			elsif l.has_one_team_present?
 				l.owner_team_id = l.has_one_team_present?
