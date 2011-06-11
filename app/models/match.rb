@@ -1,5 +1,5 @@
 class Match < ActiveRecord::Base
-	has_many :battles
+	has_many :battles, :dependent => :destroy
 	has_many :match_participations
 	has_many :teams, :through => :match_participations
 	has_one :map
@@ -52,6 +52,15 @@ class Match < ActiveRecord::Base
 		false		
 	end
 	
+	def all_orders_submit_for_team?(a_team)
+		a_team.users.each do |u|
+			if !u.user_locations.where("match_id == ?", id).first.next_location
+				return false
+			end
+		end
+		true
+	end
+	
 	def all_battles_complete?
 		#if all battles.winner != nil, return true, else return false
 		#true signifies start of new round
@@ -88,6 +97,14 @@ class Match < ActiveRecord::Base
 		#does each team own their capital (v1)
 		#does each team have at least 1 player still in the match (v2)
 		#if any conditions are true, then trigger match end and clean up
+		teams.each do |t|
+			planet = get_homeworld_for_team(t)
+			if planet.owner_team_id != planet.homeworld
+				#homeworld belongs to someone else, GG
+				puts "GG!!!!!!!!!!!!!!!!!!!!!!!"
+				return planet.owner_team_id
+			end
+		end
 		false
 	end
 	
@@ -118,6 +135,9 @@ class Match < ActiveRecord::Base
 	def process_battle_completion(a_battle)
 		#check end conditions
 		if end_conditions_met?
+			self.team_winner_id = end_conditions_met?
+			self.save
+			return true
 		end
 				
 		
@@ -147,6 +167,13 @@ class Match < ActiveRecord::Base
 			ul.save
 		end
 		clear_all_next_locations
+		
+		#check end conditions
+		if end_conditions_met?
+			self.team_winner_id = end_conditions_met?
+			self.save
+			return true
+		end
 	end
 
 	def clear_all_next_locations

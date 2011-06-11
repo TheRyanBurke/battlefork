@@ -72,7 +72,7 @@ class BattlesController < ApplicationController
 		#move loser to home, mark location.owner to winner
 		@battle.signal_match_of_battle_completion
 		
-        format.html { redirect_to(@battle, :notice => 'Battle was successfully updated.') }
+        format.html { redirect_to(@battle.match, :notice => 'Battle was successfully reported.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

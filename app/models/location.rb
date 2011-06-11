@@ -59,6 +59,11 @@ class Location < ActiveRecord::Base
 		user_locations.where("match_id == ?", map.match.id).each do |ul|
 			set_of_users_here << ul.user
 		end
+		puts "get all users here returned: "
+		set_of_users_here.each do |s|
+			puts s
+		end
+		set_of_users_here
 	end
 
 end
