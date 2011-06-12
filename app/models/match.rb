@@ -128,6 +128,13 @@ class Match < ActiveRecord::Base
 			end
 			
 		end
+		
+		#check end conditions
+		if end_conditions_met?
+			self.team_winner_id = end_conditions_met?
+			self.save
+			return true
+		end
 	end
 	
 	def process_battle_completion(a_battle)		
@@ -176,12 +183,7 @@ class Match < ActiveRecord::Base
 		end
 		clear_all_next_locations
 		
-		#check end conditions
-		if end_conditions_met?
-			self.team_winner_id = end_conditions_met?
-			self.save
-			return true
-		end
+
 	end
 
 	def clear_all_next_locations

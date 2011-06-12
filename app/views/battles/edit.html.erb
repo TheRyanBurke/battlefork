@@ -1,4 +1,4 @@
-<h1>Report Winner</h1>
+<h1>Report Winner at <%= @battle.users.first.get_user_location_for_match(@battle.match).location.name %></h1>
 
 <%= render 'form' %>
 

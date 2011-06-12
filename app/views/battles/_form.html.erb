@@ -12,9 +12,12 @@
   <% end %>
   
   <div>
-	<% @battle.users.each do |u| %>
-		<%= radio_button("battle", "team_winner_id", u.get_team_for_match(@battle.match).id) %>
-		<%= u.username + " from " + u.get_team_for_match(@battle.match).teamname %>
+	<% @battle.match.teams.each do |t| %>
+		<%= radio_button("battle", "team_winner_id", t.id) %>
+		<%= t.teamname + ": " %>
+		<% @battle.get_team_participants(t).each do |u| %>
+			<%= u.username + " " %>
+		<% end %>
 		<br />
 	<% end %>
   </div>
