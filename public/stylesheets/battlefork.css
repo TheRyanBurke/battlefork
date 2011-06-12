@@ -1,3 +1,42 @@
-.oddline {
+/* layout */
+#layout_fieldset {
+	width: 200px;
+}
+
+#buttons {
+	border: 1px solid;
+	width: 150px;
+}
+
+#content {
+	border: 1px solid;
+}
+
+.team1_name {
+	color: red;
+}
+
+.team2_name {
+	color: blue;
+}
+
+.team_roster {
+	float: left;
+	width: 275px;
+}
+
+#match_main_content {
+	float: left;	
+}
+
+.battle_list_of_users {
+	width: 175px;
+}
+
+.battle_winner {
+	width: 100px;
+}
+
+.evenline {
 	background-color: #CCCCCC;
 }

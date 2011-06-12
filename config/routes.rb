@@ -1,39 +1,32 @@
 Battlefork::Application.routes.draw do
 
-  resources :battles
-  
-  match 'matches/:id/generate_orders' => 'matches#generate_orders', :as => "generate_orders"
+	resources :battles
+	resources :matches
+	resources :users
+	resources :teams
 
-  resources :matches
-  
-  
+	match 'matches/:id/generate_orders' => 'matches#generate_orders', :as => "generate_orders"
+	match 'invite' => 'teams#invite'	
 
-controller :sessions do
-	get	'login' => :new
-	post 'login' => :create
-	delete 'logout' => :destroy
-	#get 'logout' => :destroy
-end
+	controller :sessions do
+		get	'login' => :new
+		post 'login' => :create
+		delete 'logout' => :destroy
+		#get 'logout' => :destroy #uncomment if session gets stuck
+	end
 
-controller :memberships do
-	get 'create' => :create
-	delete 'destroy_membership' => :destroy
-end
-
-match 'invite' => 'teams#invite'
-
-  resources :users
-
-  resources :teams
-  
-controller :teams do
-	get 'invite' => :invite
-	post 'add_member' => :add_member
-	post 'opponents' => :opponents
-end
-
-  
-  root :to => 'sessions#new', :as => 'login'
+	controller :memberships do
+		get 'create' => :create
+		delete 'destroy_membership' => :destroy
+	end
+	
+	controller :teams do
+		get 'invite' => :invite
+		post 'add_member' => :add_member
+		post 'opponents' => :opponents
+	end
+	  
+	root :to => 'sessions#new', :as => 'login'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

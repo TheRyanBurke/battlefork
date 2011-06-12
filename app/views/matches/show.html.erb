@@ -3,71 +3,70 @@
 <% team1 = @match.teams.first %>
 <% team2 = @match.get_other_team %>
 
-<h3 style="text-align: center">
-<span style="color: red"><%= team1.teamname %></span>
+<h2 style="text-align: center">
+<span class="team1_name"><%= team1.teamname %></span>
  VS 
-<span style="color: blue"><%= team2.teamname %></span>
+<span class="team2_name""><%= team2.teamname %></span>
 </h3>
 
-<div id="map" style="float: right; margin-right: 30px">
-	<%= render(@match.map) %>
-</div>
-
-<%= form_for :match, @match, :url => generate_orders_url(:id => @match.id) do |f| %>
-	<div id="roster-parent" >
-		<% @match.teams.each do |t| %>
-			<div id="teamroster_<%= t.id %>" >
-				<b><%= t.teamname %></b><br/>
-				<% t.users.each do |u| %>
-					<%= u.username %>
-					<% if u.id == t.captain_user_id %>
-						<em>(Captain)</em>
-					<% end %>
-					<% if @match.is_user_a_captain_of_this_team?(session[:user_id], t.id) && !@match.does_user_have_next_location?(u) && @match.all_battles_complete?  && !@match.team_winner_id %>
-						<% connected_locations = u.get_user_location_for_match(@match).location.get_all_connected_locations %>
-						<%= collection_select("user_order", u.id, connected_locations, :id, :name) %>	
-					<% end %>
-					<br />			
-				<% end %>
-			</div>
-		<% end %>		
-	</div>
-	<br />
+<div id="match_main_content">
 	<div id="morestuff" style="float: left">
-	<% if @match.team_winner_id %>
-		<em>GG! This match goes to team: <%= Team.find(@match.team_winner_id).teamname %></em>
-	<% else %>
-		<% if @match.is_user_a_captain?(session[:user_id]) %>
-			<% if !@match.all_orders_submit_for_team?(User.find(session[:user_id]).get_team_for_match(@match)) %>
-				<% if  @match.all_battles_complete? %>
-					<%= submit_tag "Submit Orders" %>
+		<em>
+		<% if @match.team_winner_id %>
+			GG! This match goes to team: <%= Team.find(@match.team_winner_id).teamname %>
+		<% else %>
+			<% if @match.is_user_a_captain?(session[:user_id]) %>
+				<% if !@match.all_orders_submit_for_team?(User.find(session[:user_id]).get_team_for_match(@match)) %>
+					<% if  @match.all_battles_complete? %>
+						<%= submit_tag "Submit Orders" %>
+					<% else %>
+						Waiting for battles to complete...
+					<% end %>
 				<% else %>
-					Waiting for battles to complete...
+					Waiting for other team(s) to submit all orders...
 				<% end %>
-			<% else %>
-				Waiting for other team(s) to submit all orders...
 			<% end %>
 		<% end %>
-	<% end %>
+		</em>
 	</div>
-<% end %>
 
-<br /><br />
+	<br /><br />
 
-<b>Battle Log</b>
-<div id="battles-header" >
-	
-	<div style="width: 200px; float: left;"><%= team1.teamname %> Players</div>
-	<div style="width: 200px; float: left;"><%= team2.teamname %> Players</div>
-	<div style="width: 100px; float: left;">Winning Team</div>
+	<%= form_for :match, @match, :url => generate_orders_url(:id => @match.id) do |f| %>
+		<div id="roster-parent" >
+			<% @match.teams.each do |t| %>
+				<div id="teamroster_<%= t.id %>" class="team_roster">
+					<b><%= t.teamname %></b><br/>
+					<% t.users.each do |u| %>
+						<%= u.username %>
+						<% if u.id == t.captain_user_id %>
+							<em>(Captain)</em>
+						<% end %>
+						<% if @match.is_user_a_captain_of_this_team?(session[:user_id], t.id) && !@match.does_user_have_next_location?(u) && @match.all_battles_complete?  && !@match.team_winner_id %>
+							<% connected_locations = u.get_user_location_for_match(@match).location.get_all_connected_locations %>
+							<%= collection_select("user_order", u.id, connected_locations, :id, :name) %>	
+						<% end %>
+						<br />			
+					<% end %>
+				</div>
+			<% end %>		
+		</div>
+		<br clear="left"/>
+		<br />
+	<% end %>
+	<b>Battle Log</b><br />
+	<table border="1">
+		<th><span class="team1_name"><%= team1.teamname %></span></th>
+		<th><span class="team2_name"><%= team2.teamname %></span></th>
+		<th>Winner</th>
+		<%= render(@match.battles) %>
+	</table>
+
+	<div>
+		Started <%= @match.get_created_timestamp %> | Updated <%= @match.get_updated_timestamp %>
+	</div>
 </div>
-<br />
-<div id="battles-content">
-<%= render(@match.battles) %>
-<br/>
+
+<div id="map">
+	<%= render(@match.map) %>
 </div>
-
-<br /><br />
-Started on <%= @match.get_created_timestamp %><br /><br />
-
-

@@ -1,35 +1,45 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Username:</b>
-  <%= @user.username %>
-</p>
+<div id="content">
+<h2>
+	<% if @user_matches_session %>
+		Your Profile
+	<% else %>
+	  <%= @user.username + "'s Profile" %>
+	<% end %>
+</h2>
 
-<p>
-	<b>Teams</b><br />
+<div id="user_teams">
+	<b>Teams</b>
 	<% if @user.teams.empty? %>
 		<em>No teams found! Try creating a new one or request an invite from a team captain.</em>
 	<% else %>
-	<ul>
-	<% @user.teams.each do |t| %>
-		<li>
-		<%= link_to t.teamname, t %>
-		</li>
+		<ul>
+			<% @user.teams.each do |t| %>
+				<li><%= link_to t.teamname, t %></li>
+			<% end %>
+		</ul>
 	<% end %>
-	</ul>
-	<% end %>
-</p>
+</div>
 
 <p>
-	<b>Battles</b>
-	<%= render(@user.battles) %>
+	<b>Battles</b><br />
+	<table border="1">
+		<th>Team 1</th>
+		<th>Team 2</th>
+		<th>Winner</th>
+		<%= render(@user.battles) %>
+	</table>
 </p>
-<br />
+</div>
+
 <br />
 
 <% if @user_matches_session %>
-<%= button_to 'Edit Profile', edit_user_path(@user), :method => :get %>
-<%= button_to 'Create New Team', new_team_path, :method => :get %>
-<%= button_to 'View All Teams', teams_path, :method => :get %>
+	<div id="buttons">
+		<%= button_to 'Edit Profile', edit_user_path(@user), :method => :get %>
+		<%= button_to 'Create New Team', new_team_path, :method => :get %>
+		<%= button_to 'View All Teams', teams_path, :method => :get %>
+	</div>
 <% end %>
 

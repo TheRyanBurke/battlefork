@@ -161,6 +161,11 @@ class Match < ActiveRecord::Base
 		return timestamp.strftime("%Y-%m-%d %I:%M %p ") + timestamp.zone
 	end
 	
+	def get_updated_timestamp
+		timestamp = updated_at.getlocal
+		return timestamp.strftime("%Y-%m-%d %I:%M %p ") + timestamp.zone
+	end
+	
 	def move_all_users_to_next_location
 		user_locations.each do |ul|
 			ul.location = ul.next_location

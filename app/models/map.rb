@@ -1,3 +1,5 @@
+# At this time, Map seems largely useless. It's not doing anything that the Match couldn't do.
+# Look into factoring out the Map in v2.
 class Map < ActiveRecord::Base
 	belongs_to :match
 	has_many :locations	
@@ -8,13 +10,15 @@ class Map < ActiveRecord::Base
 				if l.homeworld == a_team.id
 					return l
 				end
-			end
-		
+			end		
 		end
 		nil
 	end
 	
 	#hard-coded locations, revisit this in v2
+	# I want to create another level of abstraction where a Location is 
+	#  a static entity and the state of a Location in a Match is in another
+	#  class.
 	# 
 	# 8x8 grid, x is a planet, h is a capital
 	#
@@ -86,7 +90,7 @@ class Map < ActiveRecord::Base
 		a3.save
 		
 		f3 = Location.new
-		f3.name = "Thundera"
+		f3.name = "Thundara"
 		f3.posx = 3
 		f3.posy = 5
 		f3.map_id = id

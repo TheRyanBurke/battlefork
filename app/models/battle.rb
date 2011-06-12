@@ -10,7 +10,7 @@ class Battle < ActiveRecord::Base
 		users.each do |u|
 			a_team.users.each do |team_user|
 				if u==team_user
-					participants_array << u.username
+					participants_array << u
 					break
 				end
 			end

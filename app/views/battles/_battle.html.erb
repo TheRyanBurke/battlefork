@@ -1,14 +1,14 @@
-<hr>
-<% teams = battle.get_all_participants %>
-<div id="battle[<%= battle_counter %>]" class="<%= battle_counter.odd? ? 'oddline' : 'evenline' %>">
-	<% teams.each do |team| %>
-		<div style="width: 200px; float: left;">
-			<% team.each do |player| %>
-				<%= player %>
+<% participating_users_by_teams = battle.get_all_participants %>
+
+<tr id="battle[<%= battle_counter %>]" class="<%= battle_counter.odd? ? 'oddline' : 'evenline' %>">
+	<% participating_users_by_teams.each do |team| %>
+		<td class="battle_list_of_users">
+			<% team.each do |user| %>
+				<%= user.username %>
 			<% end %>			
-		</div>
+		</td>
 	<% end %>
-	<div style="width: 100px; float: left;">
+	<td class="battle_winner">
 		<% if !battle.team_winner_id %>
 			<% if battle.is_user_allowed_to_report_winner(session[:user_id]) %>
 				<%= button_to "Report Winner", edit_battle_path(battle), :method => :get %>
@@ -18,9 +18,5 @@
 		<% else %>
 			<%= battle.team_winner_to_s %>
 		<% end %>
-	</div>
-	<br />
-</div>
-
-
-
+	</td>
+</tr>

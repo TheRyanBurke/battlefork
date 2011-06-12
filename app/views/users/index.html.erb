@@ -1,32 +1,11 @@
-<h1>Listing users</h1>
+<h1>All Users</h1>
 
 <% if notice %>
 <p id="notice"><%= notice %></p>
 <% end %>
 
-
-<table>
-  <tr>
-    <th>Username</th>
-    <th></th>
-    <% if session[:user_id] %>
-    <th></th>
-    <th></th>
-    <% end %>
-  </tr>
-
+<ul>
 <% @users.each do |user| %>
-  <tr>
-    <td><%= user.username %></td>
-    <td><%= link_to 'Show', user %></td>
-    <% if user.id == session[:user_id] %>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
-    <% end %>
-  </tr>
+    <li><%= link_to user.username, user %></li>
 <% end %>
-</table>
-
-<br />
-
-
+</ul>

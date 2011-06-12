@@ -1,51 +1,58 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Teamname:</b>
-  <%= @team.teamname %>
-</p>
+<div id="content">
 
-<p>
+<h3>
+  Team: <%= @team.teamname %>
+</h3>
+
+
+
+<div>
 	<b>Members:</b>
 	<ul>
-		<li>
-			<%= User.find(@team.captain_user_id).username %> <em>(Captain)</em>
-		</li>
 	<% @team.users.each do |u| %>
-		<% if u.id != @team.captain_user_id %>
-			<li>
-				<%= u.username %>
-				<% if session[:user_id] == @team.captain_user_id %>
-				 -- <%= link_to "Remove", destroy_membership_path(:user_id => u.id, :team_id => @team.id), :confirm => "Remove #{u.username}?", :method => :delete %>
-				<% end %>
-			</li>
-		<% end %>
+		<li>
+			<%= u.username %>
+			<% if u.id == @team.captain_user_id %>
+				<em>(Captain)</em>
+			<% end %>
+			<% if session[:user_id] == @team.captain_user_id && u.id != @team.captain_user_id %>
+			 -- <%= link_to "Remove", destroy_membership_path(:user_id => u.id, :team_id => @team.id), :confirm => "Remove #{u.username}?", :method => :delete %>
+			<% end %>
+		</li>
 	<% end %>
 	</ul>
-</p>
+</div>
 
-<p>
-	<b>Matches:</b>
+<div>
+	<b>Matches:</b><br />
 	<table border="1" style="text-align: center">
 		<th>Opponent</th>
 		<th>W/L</th>
 		
 		<% @team.matches.each do |m| %>
 		<tr>
-			<td width="100"><%= link_to m.get_other_team.teamname, m.get_other_team %></td>
+			<td><%= link_to m.get_other_team.teamname, m.get_other_team %></td>
 			<td><%= link_to m.winner(@team.id), match_path(m) %></td>
 		</tr>
 		<% end %>
 	</table>
+	<br />
+</div>
 
+</div>
 
-<% if session[:user_id] == @team.captain_user_id %>
-<% if @team.has_full_team? %>
-<%= button_to 'Start New Match', :action => 'opponents', :controller => 'teams', :team_id => @team.id %>
-<% else %>
-<%= button_to 'Invite New Members', :action => 'invite', :controller => 'teams', :team_id => @team.id %>
-<% end %>
-<%= button_to 'Edit Team Details', edit_team_path(@team), :method => :get %>
-<%= button_to 'Disband', @team, :confirm => "Disband '#{@team.teamname}'? This cannot be undone.", :method => :delete %>
-<% end %>
-<%= button_to 'All Teams', teams_path, :method => :get %>
+<br />
+<div id="buttons">
+	<% if session[:user_id] == @team.captain_user_id %>
+		<% if @team.has_full_team? %>
+			<%= button_to 'Start New Match', :action => 'opponents', :controller => 'teams', :team_id => @team.id %>
+		<% else %>
+			<%= button_to 'Invite New Members', :action => 'invite', :controller => 'teams', :team_id => @team.id %>
+		<% end %>
+		<%= button_to 'Edit Team Details', edit_team_path(@team), :method => :get %>
+		<%= button_to 'Disband', @team, :confirm => "Disband '#{@team.teamname}'? This cannot be undone.", :method => :delete %>
+	<% end %>
+	<%= button_to 'All Teams', teams_path, :method => :get %>
+</div>
