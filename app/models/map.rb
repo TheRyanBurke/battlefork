@@ -2,7 +2,7 @@
 # Look into factoring out the Map in v2.
 class Map < ActiveRecord::Base
 	belongs_to :match
-	has_many :locations	
+	has_many :locations, :dependent => :destroy
 	
 	def get_homeworld_for_team(a_team)
 		locations.each do |l|

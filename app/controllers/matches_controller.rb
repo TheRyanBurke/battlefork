@@ -96,9 +96,6 @@ class MatchesController < ApplicationController
   # DELETE /matches/1.xml
   def destroy
     @match = Match.find(params[:id])
-    
-    @match.destroy_all_user_locations
-    @match.destroy_all_match_participations
                
     @match.destroy
 

@@ -32,10 +32,11 @@
 		<th>W/L</th>
 		
 		<% @team.matches.each do |m| %>
-		<tr>
-			<td><%= link_to m.get_other_team.teamname, m.get_other_team %></td>
-			<td><%= link_to m.winner(@team.id), match_path(m) %></td>
-		</tr>
+			<% other_team = m.teams.where("team_id != ?", @team.id).first %>
+			<tr>
+				<td><%= link_to other_team.teamname, other_team %></td>
+				<td><%= link_to m.winner(@team.id), match_path(m) %></td>
+			</tr>
 		<% end %>
 	</table>
 	<br />

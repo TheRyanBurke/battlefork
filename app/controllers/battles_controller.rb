@@ -69,7 +69,7 @@ class BattlesController < ApplicationController
 
     respond_to do |format|
       if @battle.update_attributes(params[:battle])
-		#move loser to home, mark location.owner to winner
+
 		@battle.signal_match_of_battle_completion
 		
         format.html { redirect_to(@battle.match, :notice => 'Battle was successfully reported.') }
@@ -85,11 +85,6 @@ class BattlesController < ApplicationController
   # DELETE /battles/1.xml
   def destroy
     @battle = Battle.find(params[:id])
-    
-    #first destroy battle_participations
-    @battle.battle_participations.each do |bp|
-    	bp.destroy
-    end
     
     @battle.destroy
 

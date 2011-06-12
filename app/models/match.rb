@@ -1,13 +1,11 @@
 class Match < ActiveRecord::Base
 	has_many :battles, :dependent => :destroy
-	has_many :match_participations
+	has_many :match_participations, :dependent => :destroy
 	has_many :teams, :through => :match_participations
-	has_one :map
+	has_one :map, :dependent => :destroy
 	
-	has_many :user_locations
+	has_many :user_locations, :dependent => :destroy
 	has_many :users, :through => :user_locations
-	
-	#come back to this and look up :dependent => :destroy to see if it makes sense here
 	
 	
 	def get_first_team
@@ -132,28 +130,33 @@ class Match < ActiveRecord::Base
 		end
 	end
 	
-	def process_battle_completion(a_battle)
+	def process_battle_completion(a_battle)		
+		a_battle.users.each do |u|
+			user_team = u.get_team_for_match(self)
+			user_loc = u.get_user_location_for_match(self)
+			if user_team.id != a_battle.team_winner_id
+				#move losers to homeworld
+				if user_loc.location != get_homeworld_for_team(user_team)	
+					user_loc.location = get_homeworld_for_team(user_team)
+					user_loc.save
+				else
+					#homeworld was just conquered, GG!
+					user_loc.location = nil
+					user_loc.save
+				end
+			else
+				#mark location owner as winner team id
+				user_loc.location.owner_team_id = a_battle.team_winner_id
+				user_loc.location.save
+			end			
+		end
+		
 		#check end conditions
 		if end_conditions_met?
 			self.team_winner_id = end_conditions_met?
 			self.save
 			return true
 		end
-				
-		
-		a_battle.users.each do |u|
-			user_team = u.get_team_for_match(self)
-			user_loc = u.get_user_location_for_match(self)
-			if user_team.id != a_battle.team_winner_id
-				#move losers to homeworld				
-				user_loc.location = get_homeworld_for_team(user_team)
-				user_loc.save			
-			else
-				#mark location owner as winner team id
-				user_loc.location.owner_team_id = a_battle.team_winner_id
-				user_loc.location.save
-			end			
-		end		
 	end
 	
 	def get_created_timestamp
@@ -188,15 +191,4 @@ class Match < ActiveRecord::Base
 		end
 	end
 
-	def destroy_all_match_participations
-		match_participations.each do |mp|
-			mp.destroy
-		end
-	end
-	
-	def destroy_all_user_locations
-		user_locations.each do |ul|
-			ul.destroy
-		end
-	end
 end

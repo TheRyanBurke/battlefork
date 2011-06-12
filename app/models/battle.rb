@@ -1,10 +1,10 @@
 class Battle < ActiveRecord::Base
 	belongs_to :match
 	
-	has_many :battle_participations
+	has_many :battle_participations, :dependent => :destroy
 	has_many :users, :through => :battle_participations
 	
-	
+	#get users involved with this battle from a specified team
 	def get_team_participants(a_team)
 		participants_array = []
 		users.each do |u|
@@ -18,7 +18,7 @@ class Battle < ActiveRecord::Base
 		participants_array
 	end
 	
-	#get match.teams, return a string
+	#get all users involved with this battle
 	def get_all_participants
 		participants_array = []
 		match.teams.each do |t|

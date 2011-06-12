@@ -18,7 +18,7 @@
 			<% if @match.is_user_a_captain?(session[:user_id]) %>
 				<% if !@match.all_orders_submit_for_team?(User.find(session[:user_id]).get_team_for_match(@match)) %>
 					<% if  @match.all_battles_complete? %>
-						<%= submit_tag "Submit Orders" %>
+						<% show_submit = true %>
 					<% else %>
 						Waiting for battles to complete...
 					<% end %>
@@ -51,16 +51,23 @@
 				</div>
 			<% end %>		
 		</div>
+		
 		<br clear="left"/>
+		<% if show_submit %>
+			<%= submit_tag "Submit Orders" %>
+		<% end %>
 		<br />
 	<% end %>
-	<b>Battle Log</b><br />
-	<table border="1">
-		<th><span class="team1_name"><%= team1.teamname %></span></th>
-		<th><span class="team2_name"><%= team2.teamname %></span></th>
-		<th>Winner</th>
-		<%= render(@match.battles) %>
-	</table>
+	
+	<% if !@match.battles.empty? %>
+		<b>Battle Log</b><br />
+		<table border="1">
+			<th><span class="team1_name"><%= team1.teamname %></span></th>
+			<th><span class="team2_name"><%= team2.teamname %></span></th>
+			<th>Winner</th>
+			<%= render(@match.battles) %>
+		</table>
+	<% end %>
 
 	<div>
 		Started <%= @match.get_created_timestamp %> | Updated <%= @match.get_updated_timestamp %>
