@@ -14,9 +14,9 @@
 	<legend>Control Panel</legend>
 <% if session[:user_id] %>
 Logged in as: <%= User.find(session[:user_id]).username %><br />
-<%= link_to "My Profile", user_path(User.find(session[:user_id])) %> | <%= link_to "Logout", logout_path, :method => :delete %>
+<%= link_to "My Profile", user_path(User.find(session[:user_id])) %> | <%= link_to "Logout", logout_path, :method => :delete %> | <a href="/about.html">README</a>
 <% else %>
-<%= link_to "Login", login_path %>
+<%= link_to "Login", login_path %> | <a href="/about.html">README</a>
 <% end %>
 </fieldset>
 
